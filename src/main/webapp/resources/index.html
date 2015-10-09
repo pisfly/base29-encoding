@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/resources/css/bootstrap.min.css">
+    <script src="/resources/js/jquery.min.js"></script>
+    <script src="/resources/js/bootstrap.min.js"></script>
+    <script src="/resources/js/jquery.form.js"></script>
+
+    <style type="text/css">
+        .form-box {
+            padding-top:50px;
+            padding-bottom:10px;
+            overflow:auto;
+        }
+
+        .inline-form-box{
+            width:400px;
+            overflow:auto;
+        }
+
+    </style>
+
+    <script>
+			$(document).ready(function(){
+
+				$('#fileUploadBtn').on('click', function(event) {
+					//Check file selected
+					if($(".form-group input[type='file']").val() == ""){
+				  		event.preventDefault();
+				  		alert("Please choose a file before process!");
+					}
+
+				});
+
+				$('#txtBtn').on('click', function(event) {
+
+				    event.preventDefault();
+
+					//Check input exist
+					if($("#textInput").val() == ""){
+
+				  		alert("Please input some data to process!");
+					} else {
+					    $('#text form').ajaxSubmit(function(data) {
+                            $('#resultText').text(data);
+                        });
+					}
+
+
+				});
+
+			});
+
+    </script>
+
+</head>
+
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Base29 Encoding</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    ::before
+    <div class="form-box">
+        <h2>Base29 Encoding Util</h2>
+
+        <p class="lead">Encoding application. Choose mode from tab menu file or text. Supported inputs are ASCII and
+            HEX </p>
+
+        <p>
+            Sample input for ASCII </p>
+        <blockquote>
+            <p>test string</p>
+        </blockquote>
+        <p>Sample input for HEX </p>
+        <blockquote>
+            <p>9983524647AB6C79F13CAC16</p>
+        </blockquote>
+
+        <div>
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#text" data-toggle="tab">Text Mode</a></li>
+                <li><a href="#file" data-toggle="tab">File Mode</a></li>
+            </ul>
+
+            <div class="tab-content">
+
+                <div id="text" class="tab-pane fade in active">
+                    <h4>Input text then process</h4>
+
+                    <form method="POST" action="/text" role="form"
+                            style="float:left; width:400px;">
+
+                        <div class="form-group">
+                            <label for="sel11">Data Type</label>
+                            <select name="isAscii" class="form-control" id="sel11">
+                                <option value="true">Ascii</option>
+                                <option value="false">Hex</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sel12">Choose operation</label>
+                            <select name="operation" class="form-control" id="sel12">
+                                <option value="encode">Encode</option>
+                                <option value="decode">Decode</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="textInput">Text To Process</label>
+                            <textarea id="textInput" name="text" class="form-control"></textarea>
+                        </div>
+
+                        <button id="txtBtn" type="submit" class="btn btn-default">Process</button>
+                    </form>
+                    <div style="float:left; padding-left:50px; width:400px;">
+                        <div class="form-group">
+                            <label for="sel1">Result</label>
+                            <textarea id="resultText" style="height:205px;" class="form-control" disabled placeholder="Nothing processed yet"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div id="file" class="tab-pane fade inline-form-box">
+                    <h4>Choose file to upload and then process</h4>
+
+                    <form method="POST" action="/upload" enctype="multipart/form-data" target="_blank" role="form">
+
+                        <div class="form-group">
+                            <label for="sel1">Data Type</label>
+                            <select name="isAscii" class="form-control" id="sel1">
+                                <option value="true">Ascii</option>
+                                <option value="false">Hex</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sel2">Choose operation</label>
+                            <select name="operation" class="form-control" id="sel2">
+                                <option value="encode">Encode</option>
+                                <option value="decode">Decode</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <input id="fileInput" type="file" name="file" class="form-control">
+                        </div>
+
+                        <button id="fileUploadBtn" type="submit" class="btn btn-default">Upload</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
